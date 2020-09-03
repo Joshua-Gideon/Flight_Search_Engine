@@ -115,13 +115,15 @@ input {
   </ul>
   </div>
 </div>
-	<form action="/form/submit" method="GET">
+	<form action="/flights" method="GET">
 		<input type="text" name="text" class="search"
 			placeholder="Enter your location"> 
 		<input type="text" name="text" class="see"
-			placeholder="Enter your destination"> <input type="submit"
+			placeholder="Enter your destination"> 
+		<input type="submit"
 			name="submit" class="submit" value="Search">
 	</form>
+	<a href="/flights">Flights></a>
 	
 </body>
 </html>
