@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.MediaType;
@@ -52,6 +54,40 @@ class FlightsComponent implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
+		readManifest();
+		readFlights();
+		
+	}
+	
+
+	private void readFlights() throws Exception {
+		FileReader file = null ;
+		try{
+			file = new FileReader(Resource.class.getResource("flights.csv").getPath());
+		}catch (Exception e) {
+			System.out.println("flights.csv not found/empty: " + e.getMessage());	}
+		if(file!=null) {
+			BufferedReader reader = new BufferedReader(file);
+			String line ="";
+			while((line = reader.readLine()) !=null) {
+				String[] data = line.split(",");
+				
+				Flights flightEntry
+				= new Flights(
+						data[0],
+						data[1],
+						data[2],
+						data[3]
+						);
+				flightEntry = flightsDao.save(flightEntry);
+			}
+		}
+		else {
+		System.out.println("flights.csv not found/empty");
+		}
+	}
+	
+	private void readManifest() throws Exception {
 		FileReader file = null ;
 		try{
 			file = new FileReader(getClass().getResource("manifest.csv").getPath());
