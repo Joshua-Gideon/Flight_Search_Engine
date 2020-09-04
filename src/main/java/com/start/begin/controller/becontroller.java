@@ -5,21 +5,45 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.start.begin.dao.FlightsDao;
 import com.start.begin.dao.ManifestDao;
 import com.start.begin.model.Flights;
 import com.start.begin.model.Manifest;
+import com.start.begin.model.User;
+import com.start.begin.model.UserRepo;
 @Controller
 public class becontroller {
+	@Autowired UserRepo userRepo;
+	@RequestMapping("/login")
+	public String PrefPage(@RequestParam("userName") String userName,
+			@RequestParam("password") String password ,Model model){
+		User u=null;
+		try {
+			u=userRepo.findByName(userName);
+		}catch (Exception e) {
+			System.out.println("User not found");
+			return "index";
+		}
+		if(u!=null) {
+		model.addAttribute("UserName", userName);
+		return "prefpage";
+	}
+	return "index";
+	}	
+	
+	
 	@GetMapping("/")
  public String sayhello() {
 		for (Flights f: dao.findAll())
@@ -37,11 +61,6 @@ public class becontroller {
 		
 		return  "flights";
 	}
-	
-//@RequestMapping("/error")
-//public String error() {
-//	return "error.jsp";
-//}
 }
 
 @Component
@@ -59,13 +78,12 @@ class FlightsComponent implements CommandLineRunner{
 		
 	}
 	
-
 	private void readFlights() throws Exception {
 		FileReader file = null ;
 		try{
-			file = new FileReader(Resource.class.getResource("flights.csv").getPath());
+			file = new FileReader(ResourceUtils.getFile("classpath:flightList.csv").getPath());
 		}catch (Exception e) {
-			System.out.println("flights.csv not found/empty: " + e.getMessage());	}
+			System.out.println("flightList.csv not found/empty: " + e.getMessage());	}
 		if(file!=null) {
 			BufferedReader reader = new BufferedReader(file);
 			String line ="";
@@ -83,14 +101,14 @@ class FlightsComponent implements CommandLineRunner{
 			}
 		}
 		else {
-		System.out.println("flights.csv not found/empty");
+		System.out.println("flightList.csv not found/empty");
 		}
 	}
 	
 	private void readManifest() throws Exception {
 		FileReader file = null ;
 		try{
-			file = new FileReader(getClass().getResource("manifest.csv").getPath());
+			file = new FileReader(ResourceUtils.getFile("classpath:manifest.csv").getPath());
 		}catch (Exception e) {
 
 			System.out.println("manifest.csv not found/empty: " + e.getMessage());	}

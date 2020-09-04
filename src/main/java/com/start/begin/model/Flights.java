@@ -7,7 +7,7 @@ import javax.persistence.Id;
 @Entity
 public class Flights {
 @Id
-@Column(name="id")
+@Column(name="flight_no")
 String id;
 @Column(name="capacity")
 int capacity;

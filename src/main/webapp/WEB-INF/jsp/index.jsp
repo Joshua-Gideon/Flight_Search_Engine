@@ -9,7 +9,7 @@
 <style>
 body {
 	background-image:
-		url("https://images.unsplash.com/photo-1530521954074-e64f6810b32d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80");
+		url("https://cdn.pixabay.com/photo/2020/08/09/08/23/aircraft-5474897_960_720.jpg");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
@@ -25,6 +25,7 @@ form {
 	width: 400px;
 	margin: auto;
 	margin-top: 150px;
+	float: left;
 }
 
 input {
@@ -36,7 +37,14 @@ input {
 .search {
 	width: 75%;
 }
-
+.log{
+	color:#ffffff;
+	background-color: #1c87c9;
+}
+.reg{
+	color:#ffffff;
+	background-color: #1c87c9;
+}
 .submit {
 	width: 70px;
 	background-color: #1c87c9;
@@ -123,7 +131,17 @@ input {
 		<input type="submit"
 			name="submit" class="submit" value="Search">
 	</form>
-	<a href="/flights">Flights></a>
+<div align="right">
+<form  action="/login" method="post">
+	<div>UserName : <input type="text" name="userName" placeholder="Enter Username" value=""><br></div>
+	<div><br></div>
+	<div>PassWord : <input type="text" name="password" placeholder="Enter Password" value=""></div>
+	<div><br></div>
+	<div><input type="submit"  class="log" value="Login"></div>
+	<div><br></div>
+	<div><input type="button" class="reg" value="Register"></div>
+</form>
+</div>
 	
 </body>
 </html>

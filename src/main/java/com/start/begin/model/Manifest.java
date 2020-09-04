@@ -80,6 +80,7 @@ public class Manifest {
 	public void setArrival(String arrival) {
 		this.arrival = arrival;
 	}
+	
 	public Manifest(String id, String flight_no, String origin, String destination, String stops,String departure, String arrival) {
 		super();
 		this.id = Integer.parseInt(id);
