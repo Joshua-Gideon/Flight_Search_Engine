@@ -11,15 +11,16 @@
 
 
 <div class="login">
-		<h1>Login</h1>
+		<h1 align="center">Login</h1>
+		<div align="center">
 		<form action="/login" method="post" >
 				<input type="text" name="userName" placeholder="Username" value="">
 				<input type="password" name="password" placeholder="Password" value=""><br/>
 
-					<input type="submit" class="loginButton" value="Login">
-					<input type="button" class="loginButton" value="Register">
-	
+					<input type="submit" class="loginButton" value="Login">	
 		</form>
+		</div>
+		<div align="center" style="margin-top:20px;margin-bottom:10px;">Don't have an account? <a style="color:blue;">Register</a></div>
 	</div>
 
 </body>
