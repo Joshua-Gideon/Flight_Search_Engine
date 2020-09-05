@@ -23,118 +23,113 @@ import com.start.begin.model.Flights;
 import com.start.begin.model.Manifest;
 import com.start.begin.model.User;
 import com.start.begin.model.UserRepo;
+
 @Controller
 public class becontroller {
-	@Autowired UserRepo userRepo;
+	@Autowired
+	UserRepo userRepo;
+
 	@RequestMapping("/login")
-	public String PrefPage(@RequestParam("userName") String userName,
-			@RequestParam("password") String password ,Model model){
-		User u=null;
+	public String PrefPage(@RequestParam("userName") String userName, @RequestParam("password") String password,
+			Model model) {
+		User u = null;
 		try {
-			u=userRepo.findByName(userName);
-		}catch (Exception e) {
+			u = userRepo.findByName(userName);
+		} catch (Exception e) {
 			System.out.println("User not found");
 			return "index";
 		}
-		if(u!=null) {
-		model.addAttribute("UserName", userName);
-		return "prefpage";
+		if (u != null) {
+			model.addAttribute("UserName", userName);
+			return "prefpage";
+		}
+		return "index";
 	}
-	return "index";
-	}	
-	
-	
+
 	@GetMapping("/")
- public String sayhello() {
-		for (Flights f: dao.findAll())
-		System.out.println(f.getId().toString());
-	 return "index";
- }
+	public String sayhello() {
+		for (Flights f : dao.findAll())
+			System.out.println(f.getId().toString());
+		return "index";
+	}
+
 	@Autowired
 	private FlightsDao dao;
-	
-	@GetMapping(value="/flights",produces = MediaType.TEXT_PLAIN_VALUE)
-	public String getFlights(ModelMap model) {
-		List<Flights> result = new ArrayList<Flights>();
-		dao.findAll().forEach(result::add);;
-		model.addAttribute("flights",result);
+	@Autowired 
+	private ManifestDao manifestDao;
+
+	@GetMapping(value = "/flights")
+	public String getFlights(ModelMap model, @RequestParam("origin") String origin,
+			@RequestParam("destination") String destination) {
+//		String query = "SELECT * FROM manifest WHERE origin=:origin and destination=${destination}";
 		
-		return  "flights";
+		List<Manifest> result = manifestDao.findFilghts(origin,destination);
+		for (int i = 0; i < result.size(); i++) {			
+			System.out.println(result.get(i));
+		}
+		model.addAttribute("flights", result);
+
+		return "flights";
 	}
 }
 
 @Component
-class FlightsComponent implements CommandLineRunner{
+class FlightsComponent implements CommandLineRunner {
 
 	@Autowired
 	private FlightsDao flightsDao;
 	@Autowired
-	private ManifestDao manifestDao ;
-	
+	private ManifestDao manifestDao;
+
 	@Override
 	public void run(String... args) throws Exception {
 		readManifest();
 		readFlights();
-		
+
 	}
-	
+
 	private void readFlights() throws Exception {
-		FileReader file = null ;
-		try{
+		FileReader file = null;
+		try {
 			file = new FileReader(ResourceUtils.getFile("classpath:flightList.csv").getPath());
-		}catch (Exception e) {
-			System.out.println("flightList.csv not found/empty: " + e.getMessage());	}
-		if(file!=null) {
+		} catch (Exception e) {
+			System.out.println("flightList.csv not found/empty: " + e.getMessage());
+		}
+		if (file != null) {
 			BufferedReader reader = new BufferedReader(file);
-			String line ="";
-			while((line = reader.readLine()) !=null) {
+			String line = "";
+			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
-				
-				Flights flightEntry
-				= new Flights(
-						data[0],
-						data[1],
-						data[2],
-						data[3]
-						);
+
+				Flights flightEntry = new Flights(data[0], data[1], data[2], data[3]);
 				flightEntry = flightsDao.save(flightEntry);
 			}
-		}
-		else {
-		System.out.println("flightList.csv not found/empty");
+		} else {
+			System.out.println("flightList.csv not found/empty");
 		}
 	}
-	
-	private void readManifest() throws Exception {
-		FileReader file = null ;
-		try{
-			file = new FileReader(ResourceUtils.getFile("classpath:manifest.csv").getPath());
-		}catch (Exception e) {
 
-			System.out.println("manifest.csv not found/empty: " + e.getMessage());	}
-		if(file!=null) {
+	private void readManifest() throws Exception {
+		FileReader file = null;
+		try {
+			file = new FileReader(ResourceUtils.getFile("classpath:manifest.csv").getPath());
+		} catch (Exception e) {
+
+			System.out.println("manifest.csv not found/empty: " + e.getMessage());
+		}
+		if (file != null) {
 			BufferedReader reader = new BufferedReader(file);
-			String line ="";
-			while((line = reader.readLine()) !=null) {
+			String line = "";
+			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
-				
+
 				System.out.println(Integer.parseInt(data[0]));
-				Manifest manifestEntry
-				= new Manifest(
-						data[0],
-						data[1],
-						data[2],
-						data[3],
-						data[4],
-						data[5],
-						data[6]
-						);
+				Manifest manifestEntry = new Manifest(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
 				manifestEntry = manifestDao.save(manifestEntry);
 			}
-		}
-		else {
-		System.out.println("manifest.csv not found/empty");
+		} else {
+			System.out.println("manifest.csv not found/empty");
 		}
 	}
-	
+
 }
