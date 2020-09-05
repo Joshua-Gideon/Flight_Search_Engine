@@ -26,6 +26,7 @@ import com.start.begin.model.UserRepo;
 
 @Controller
 public class becontroller {
+	Boolean logedin=false;
 	@Autowired
 	UserRepo userRepo;
 
@@ -40,8 +41,9 @@ public class becontroller {
 			return "index";
 		}
 		if (u != null) {
-			model.addAttribute("UserName", userName);
-			return "prefpage";
+			logedin=true;
+			model.addAttribute("UserName", u);
+			return "index";
 		}
 		return "index";
 	}
@@ -50,6 +52,15 @@ public class becontroller {
 	public String sayhello() {
 		for (Flights f : dao.findAll())
 			System.out.println(f.getId().toString());
+		return "index";
+	}
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	@GetMapping("/logout")
+	public String logout() {
+		logedin=false;
 		return "index";
 	}
 

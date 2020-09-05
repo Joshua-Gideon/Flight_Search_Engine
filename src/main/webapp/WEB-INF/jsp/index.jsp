@@ -1,6 +1,7 @@
+<%@page import="com.start.begin.model.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,9 @@
 	href="https://img.icons8.com/color/2x/airplane-take-off.png">
 <meta charset="ISO-8859-1">
 <title>My Page</title>
-<style><%@include file="/WEB-INF/css/style.css"%></style>
+<style>
+<%@include file="/WEB-INF/css/style.css"%>
+</style>
 </head>
 <body>
 	<div class="header">
@@ -20,30 +23,33 @@
 				</h1>
 			</div>
 			<ul class="navigation">
-				<a><li>About Us</li></a>
-				<a><li>Contact Us</li></a>
-				<a><li>Feedback</li></a>
+				<li><a>About Us</a></li>
+				<li><a>Contact Us</a></li>
+				<li>
+					<%
+						if (request.getAttribute("UserName") == null) {
+					%><a href="/login">Login</a> <%
+ 	} else {
+ User u = (User) request.getAttribute("UserName");
+ %><a href="/logout">Logout</a>
+					<%
+						}
+					%>
+				</li>
 			</ul>
 		</div>
 	</div>
-	<div class="search">
-	<form action="/flights" method="GET">
-		<input type="text" name="origin" placeholder="Origin"> 
-		<input type="text" name="destination" placeholder="Destination">
-		<input type="date" name="dateoftravel">
-		<input type="submit" name="submit" class="searchButton" value="Search">
-	</form>
-	</div>
-	
-	
-	<div class="login">
-		<form action="/login" method="post">
-				<input type="text" name="userName" placeholder="Username" value="">
-				<input type="text" name="password" placeholder="Password" value=""><br/>
-				<input type="submit" class="loginButton" value="Login">
-				<input type="button" class="loginButton" value="Register">
+	<div class="search" align="center">
+		<form action="/flights" method="GET">
+			<input type="text" name="origin" placeholder="Origin"> <input
+				type="text" name="destination" placeholder="Destination"> <input
+				type="date" name="dateoftravel"> <input type="submit"
+				name="submit" class="searchButton" value="Search">
 		</form>
 	</div>
+
+
+
 
 </body>
 </html>
