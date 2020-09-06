@@ -81,10 +81,7 @@ public class becontroller {
 		search_origin = origin;
 		search_destination = destination;
 
-//		List<Manifest> result = manifestDao.findFilghtsWithOriginAndDest(origin, destination);
-		Manifest example = Manifest();
-		
-		List<Manifest> result = manifestDao.findAll(example);
+		List<Manifest> result = manifestDao.findFilghtsWithOriginAndDest(origin, destination);
 		for (int i = 0; i < result.size(); i++) {
 			System.out.println(result.get(i));
 		}
@@ -103,7 +100,7 @@ public class becontroller {
 		if (stops == "null") {
 			result = manifestDao.findFilghts(search_origin, search_destination,Integer.parseInt(min_price),Integer.parseInt(max_price));
 		} else {
-			result = manifestDao.findFilghtsWithStops(search_origin, search_destination, stops,Integer.parseInt(min_price),Integer.parseInt(max_price));
+			result = manifestDao.findFilghtsWithStops(search_origin, search_destination, stops,min_price,max_price);
 		}
 
 		model.addAttribute("flights", result);

@@ -8,9 +8,11 @@ import javax.persistence.Id;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.sun.istack.NotNull;
 
 @Entity
+@JsonPOJOBuilder
 public class Manifest {
 	
 	
