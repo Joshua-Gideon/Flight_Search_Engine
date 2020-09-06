@@ -7,8 +7,10 @@
 <title>Login</title>
 <style><%@include file="/WEB-INF/css/style.css"%></style>
 </head>
-<body>
+<body style="background: white;">
 
+
+<div class="loginImage"><img  alt="Image not found" src="https://image.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg"></div>
 
 <div class="login">
 		<h1 align="center">Login</h1>
