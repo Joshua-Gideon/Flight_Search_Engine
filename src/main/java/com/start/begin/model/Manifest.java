@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.springframework.data.jpa.repository.Query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
@@ -39,6 +38,9 @@ public class Manifest {
 	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern="HH:mm:ss")
 	String arrival;
+	@Column(name = "price")
+	@NotNull
+	String price;
 	
 	//getters $ setters
 	public int getId() {
@@ -85,7 +87,14 @@ public class Manifest {
 		this.arrival = arrival;
 	}
 	
-	public Manifest(String id, String flight_no, String origin, String destination, String stops,String departure, String arrival) {
+	
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	public Manifest(String id, String flight_no, String origin, String destination, String stops,String departure, String arrival,String price) {
 		super();
 		this.id = Integer.parseInt(id);
 		this.flight_no = flight_no;
@@ -94,6 +103,7 @@ public class Manifest {
 		this.stops = Integer.parseInt(stops);;
 		this.departure =  departure;
 		this.arrival = arrival;
+		this.price=price;
 	}
 	
 	public Manifest() {

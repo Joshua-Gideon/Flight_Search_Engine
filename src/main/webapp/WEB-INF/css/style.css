@@ -143,11 +143,10 @@ body {
 
 .loginImage{
 	position: absolute;
-	left: 15%;
+	padding:20px;
+	left: 10%;
 	width:40%;
-	height:40%;
-	
-	background: url("login.jpg");
+	height:40%;	
 }
 
 /*search Result page*/

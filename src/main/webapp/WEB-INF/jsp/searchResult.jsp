@@ -19,7 +19,7 @@
 <script src ="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src ="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-var min=1,max = 50000;
+var min=1,max = 50000,stops=0;
 	$( function() {
 		$( "#slider-range" ).slider({
 			range: true,
@@ -37,6 +37,21 @@ var min=1,max = 50000;
 
 	} );
 	console.log(min,max);
+
+	$(function(){
+		$("#stops").slider({
+			min:0,
+			max:10,
+			value: 0,
+			slide:function(event,ui){
+			stops = ui.value;
+			$("#stopsLabel").val(" "+ui.value);
+				}
+			});
+
+		$("#stopsLabel").val(" "+$("#stops").slider("value"));
+		});
+	
 	</script>
 	
 </head>
@@ -64,7 +79,7 @@ var min=1,max = 50000;
 	
 <div class="flightsResult">
 
-<%@include file="/WEB-INF/jsp/flightCard.jsp" %>
+<%@ include file="/WEB-INF/jsp/flightCard.jsp" %>
 
 </div>
 
@@ -81,16 +96,17 @@ var min=1,max = 50000;
 
 <div class="priceFilter">
 	<h2 align="left">No of Stops</h2>
-	<div id="slider-range"></div>
+	<div id="stops"></div>
 	<p>
-		<input type="range" name="stops" min="0" max="10" value="0" onchange="" style="border:0; color:black; font-weight:bold; width:100%; margin-bottom:10px;"><br/>
-		<label for="stops">No of Stops: </label>
+		<label for="stopsLabel">No of Stops: ${stops}</label>
+		<input type="text"  id="stopsLabel" readonly style="border:0; color:black; font-weight:bold;">
+		
 	</p>
 </div>
 
 <div >
 <button class="filterButtons">Clear</button>
-<button class="filterButtons">Apply</button>
+<button class="filterButtons" onclick="location.href ='/filters?stops='+stops+'&min_price='+min+'&max_price='+max;">Apply</button>
 </div>
 
 

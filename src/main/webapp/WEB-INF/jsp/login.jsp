@@ -22,7 +22,7 @@
 					<input type="submit" class="loginButton" value="Login">	
 		</form>
 		</div>
-		<div align="center" style="margin-top:20px;margin-bottom:10px;">Don't have an account? <a style="color:blue;">Register</a></div>
+		<div align="center" style="margin-top:20px;margin-bottom:10px;">Don't have an account? <a style="color:blue;" >Register</a></div>
 	</div>
 
 </body>

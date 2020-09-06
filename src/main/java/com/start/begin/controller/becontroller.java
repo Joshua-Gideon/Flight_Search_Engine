@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.start.begin.dao.FlightsDao;
@@ -26,7 +27,7 @@ import com.start.begin.model.UserRepo;
 
 @Controller
 public class becontroller {
-	Boolean logedin=false;
+	Boolean logedin = false;
 	@Autowired
 	UserRepo userRepo;
 
@@ -41,7 +42,7 @@ public class becontroller {
 			return "index";
 		}
 		if (u != null) {
-			logedin=true;
+			logedin = true;
 			model.addAttribute("UserName", u);
 			return "index";
 		}
@@ -54,32 +55,58 @@ public class becontroller {
 			System.out.println(f.getId().toString());
 		return "index";
 	}
+
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
+
 	@GetMapping("/logout")
 	public String logout() {
-		logedin=false;
+		logedin = false;
 		return "index";
 	}
 
 	@Autowired
 	private FlightsDao dao;
-	@Autowired 
+	@Autowired
 	private ManifestDao manifestDao;
 
-	@GetMapping(value = "/flights")
+	String search_origin, search_destination;
+
+	@RequestMapping(value = "/flights", method = RequestMethod.GET)
 	public String getFlights(ModelMap model, @RequestParam("origin") String origin,
 			@RequestParam("destination") String destination) {
-//		String query = "SELECT * FROM manifest WHERE origin=:origin and destination=${destination}";
+
+		search_origin = origin;
+		search_destination = destination;
+
+//		List<Manifest> result = manifestDao.findFilghtsWithOriginAndDest(origin, destination);
+		Manifest example = Manifest();
 		
-		List<Manifest> result = manifestDao.findFilghts(origin,destination);
-		for (int i = 0; i < result.size(); i++) {			
+		List<Manifest> result = manifestDao.findAll(example);
+		for (int i = 0; i < result.size(); i++) {
 			System.out.println(result.get(i));
 		}
 		model.addAttribute("flights", result);
 
+		return "searchResult";
+	}
+
+	@RequestMapping(value = "/filters", method = RequestMethod.GET)
+	public String addFilters(ModelMap model, @RequestParam("stops") String stops, 
+			@RequestParam("min_price") String min_price,
+			@RequestParam("max_price") String max_price) {
+		
+		System.out.println(min_price+' ' +max_price);
+		List<Manifest> result = null;
+		if (stops == "null") {
+			result = manifestDao.findFilghts(search_origin, search_destination,Integer.parseInt(min_price),Integer.parseInt(max_price));
+		} else {
+			result = manifestDao.findFilghtsWithStops(search_origin, search_destination, stops,Integer.parseInt(min_price),Integer.parseInt(max_price));
+		}
+
+		model.addAttribute("flights", result);
 		return "searchResult";
 	}
 }
@@ -135,7 +162,8 @@ class FlightsComponent implements CommandLineRunner {
 				String[] data = line.split(",");
 
 				System.out.println(Integer.parseInt(data[0]));
-				Manifest manifestEntry = new Manifest(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
+				Manifest manifestEntry = new Manifest(data[0], data[1], data[2], data[3], data[4], data[5], data[6],
+						data[7]);
 				manifestEntry = manifestDao.save(manifestEntry);
 			}
 		} else {
