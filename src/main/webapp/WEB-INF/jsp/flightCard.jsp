@@ -11,18 +11,30 @@ for (int i = 0; i < flights.size(); i++)
 { 
 Manifest flight = (Manifest) flights.get(i); 
 %>
-	<div style="border: 2px; padding: 8px; margin:8px; background-color: white; border-radius: 8px; border-color: red;">
-		<h2 >
-			Flight No:
-			<%=flight.getFlight_no() %></h2>
-		
-		<div>
-			<span>Departure:<%=flight.getArrival()%></span>
+	<div class="flightsCard">
+		<div class="flightBlock">
+			<p>Airlines Name</p>
+			<p><%=flight.getFlight_no() %></p>
 		</div>
-		<div>
-			<span> Arrival:<%=flight.getDeparture()%></span>
+			
+		<div class="">
+			<span><%=flight.getArrival()%></span>
+		</div>
+		<div style="width: 20%;">
+			<hr>
+		</div>
+		<div class="">
+			<span><%=flight.getDeparture()%></span>
+		</div>
+		<div class="flightsBlock">
+			<h3 align="center"><%=flight.getPrice() %></h3>
+			
+			<input type="button" class="bookbutton" value="Book Now">
 		</div>
 	</div>
+	
+	
+	
 	<% 
 } 
 %>

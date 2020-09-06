@@ -120,8 +120,8 @@ body {
 	background-color: white;
 }
 
-.login h1{
-	color:black;
+.login h1 {
+	color: black;
 }
 
 .login input {
@@ -141,12 +141,12 @@ body {
 	background-color: #1c87c9;
 }
 
-.loginImage{
+.loginImage {
 	position: absolute;
-	padding:20px;
+	padding: 20px;
 	left: 10%;
-	width:40%;
-	height:40%;	
+	width: 40%;
+	height: 40%;
 }
 
 /*search Result page*/
@@ -188,21 +188,38 @@ h1 {
 .priceFilter {
 	border: 2px;
 	padding: 8px;
-	padding-left:20px;
-	padding-right:20px;
+	padding-left: 20px;
+	padding-right: 20px;
 	margin: 8px;
 	background-color: white;
 	border-radius: 8px;
 	border-color: red;
 }
 
-.filterButtons{	
-	margin-left:10px;
-	width:30%;
+.filterButtons {
+	margin-left: 10px;
+	width: 30%;
 	padding: 7px;
 	margin-top: 20px;
 	color: white;
 	background: #1c87c9;
 	border-radius: 8px;
 	font-size: 16px;
+}
+
+.flightsCard {
+	border: 2px;
+	padding: 8px;
+	margin: 8px;
+	background-color: white;
+	border-radius: 8px;
+	border-color: red;
+	display: flex;
+	align-items: stretch;
+}
+
+.flightBlock{
+	width: 20%;
+	align-content: center;
+		
 }
