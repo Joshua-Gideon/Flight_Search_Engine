@@ -1,14 +1,18 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.start.begin.model.Manifest"%>
-<%@include file="/WEB-INF/jsp/header.jsp" %>
+
+
+
+
+
 	<h1>Flights</h1>
 	<% ArrayList flights = (ArrayList)request.getAttribute("flights"); 
 for (int i = 0; i < flights.size(); i++) 
 { 
 Manifest flight = (Manifest) flights.get(i); 
 %>
-	<div>
-		<h2>
+	<div style="border: 2px; padding: 8px; margin:8px; background-color: white; border-radius: 8px; border-color: red;">
+		<h2 >
 			Flight No:
 			<%=flight.getFlight_no() %></h2>
 		

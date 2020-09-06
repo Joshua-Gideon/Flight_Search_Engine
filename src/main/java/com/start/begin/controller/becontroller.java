@@ -80,7 +80,7 @@ public class becontroller {
 		}
 		model.addAttribute("flights", result);
 
-		return "flights";
+		return "searchResult";
 	}
 }
 

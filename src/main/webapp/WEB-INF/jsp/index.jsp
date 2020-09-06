@@ -15,7 +15,6 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/jsp/header.jsp" %>
-	<%@include file="/WEB-INF/jsp/searchBar.jsp" %>
-	
+	<%@include file="/WEB-INF/jsp/searchBar.jsp" %>	
 </body>
 </html>

@@ -71,35 +71,31 @@ body {
 	font-family: "Times New Roman", Times, serif;
 	font-size: 19px;
 }
-.navigation li a:hover{
+
+.navigation li a:hover {
 	font-size: 25px;
 	color: #1c87c9;
 }
 
 /*Header End*/
-
-
-
-
 .search input {
 	padding: 10px;
 	border: 0;
 	font-size: 20px;
 	width: 40%;
 	border: 10px;
-	border-color:blue;
+	border-color: blue;
 	border-radius: 10px;
 	margin: 10px;
-	align:center;
-	outline: none;	
+	align: center;
+	outline: none;
 }
 
-.search{
+.search {
 	width: 50%;
 	position: absolute;
 	left: 25%;
-	top: 40%;	
-	
+	top: 40%;
 }
 
 .searchButton {
@@ -110,36 +106,91 @@ body {
 	background: #1c87c9;
 }
 
-
 .login {
 	position: absolute;
 	right: 35%;
 	width: 25%;
 	top: 20%;
-	padding-left:30px;
-	padding-right:30px;
+	padding-left: 30px;
+	padding-right: 30px;
 	border: 3px;
-	border-width:3px;
-	border-color:  #1c87c9;
+	border-width: 3px;
+	border-color: #1c87c9;
 	border-radius: 20px;
 	background-color: white;
-	
 }
 
-.login input{
+.login input {
 	border-radius: 10px;
-	border-collapse:collapse;
-	outline:none;
+	border-collapse: collapse;
+	outline: none;
 	margin: 10px;
-	min-width:80%;
+	min-width: 80%;
 	font-size: 20px;
 	padding: 10px;
 }
 
-.loginButton{
-	border-collapse:collapse;
+.loginButton {
+	border-collapse: collapse;
 	padding: 4px;
-	color:white;
+	color: white;
 	background-color: #1c87c9;
 }
 
+/*search Result page*/
+.searchResultBar {
+	position: absolute;
+	width: 25%;
+	margin-left: 20px;
+	top: 12%;
+}
+
+.searchResultBar input {
+	border-radius: 10px;
+	border-collapse: collapse;
+	outline: none;
+	margin: 10px;
+	min-width: 80%;
+	font-size: 20px;
+	padding: 10px;
+}
+
+.flightsResult {
+	position: relative;
+	top: 12%;
+	left: 30%;
+	width: 40%;
+}
+
+.filters {
+	position: absolute;
+	top: 12%;
+	right: 20px;
+	width: 25%;
+}
+
+h1 {
+	color: white;
+}
+
+.priceFilter {
+	border: 2px;
+	padding: 8px;
+	padding-left:20px;
+	padding-right:20px;
+	margin: 8px;
+	background-color: white;
+	border-radius: 8px;
+	border-color: red;
+}
+
+.filterButtons{	
+	margin-left:10px;
+	width:30%;
+	padding: 7px;
+	margin-top: 20px;
+	color: white;
+	background: #1c87c9;
+	border-radius: 8px;
+	font-size: 16px;
+}
