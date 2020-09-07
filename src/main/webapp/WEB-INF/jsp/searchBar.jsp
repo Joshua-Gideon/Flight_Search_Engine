@@ -1,6 +1,6 @@
 <div class="search" align="center">
 		<form action="/flights" method="GET">
-			<input type="text" name="origin" placeholder="Origin"> 
+			<input type="text" name="origin" placeholder="Origin" > 
 			<input
 				type="text" name="destination" placeholder="Destination"> 
 				<input

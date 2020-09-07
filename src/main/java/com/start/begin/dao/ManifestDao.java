@@ -15,7 +15,7 @@ public interface ManifestDao extends JpaRepository<Manifest, Long> {
 	@Query(value="SELECT * FROM manifest WHERE origin=?1 and destination=?2", nativeQuery = true)
 	public List<Manifest> findFilghtsWithOriginAndDest(String origin, String destination);
 
-	@Query(value="SELECT * FROM manifest WHERE origin=?1 and destination=?2 and price>=?3 and price<=?4);", nativeQuery = true)
+	@Query(value="SELECT * FROM manifest WHERE origin=?1 and destination=?2 and price>=?3 and price<=?4", nativeQuery = true)
 	public List<Manifest> findFilghts(String origin, String destination,int min,int max);
 	
 	
