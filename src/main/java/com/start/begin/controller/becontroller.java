@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mysql.cj.xdevapi.JsonArray;
+import com.mysql.cj.xdevapi.JsonValue;
 import com.start.begin.dao.FlightsDao;
 import com.start.begin.dao.ManifestDao;
 import com.start.begin.dao.UserRepo;
@@ -31,6 +33,7 @@ import com.start.begin.model.User;
 public class becontroller {
 	Boolean logedin = false, ascending = true;
 	HashMap<String, Boolean> sort = new HashMap<String, Boolean>();
+	ArrayList<String> airlineList = new ArrayList<String>();
 	@Autowired
 	UserRepo userRepo;
 
@@ -88,6 +91,7 @@ public class becontroller {
 		List<Manifest> manifestList = manifestDao.findFilghtsWithOriginAndDest(origin, destination);
 
 		Collections.sort(manifestList, durationAcd);
+		airlineList.clear();
 
 		for (int i = 0; i < manifestList.size(); i++) {
 			System.out.println(manifestList.get(i));
@@ -97,8 +101,10 @@ public class becontroller {
 				flightList.add(new Flights());
 			else
 				flightList.add(i, flight);
+			airlineList.add(flight.getAirline());
 		}
-
+		model.addAttribute("logedin", logedin);
+		model.addAttribute("airlineList", airlineList);
 		model.addAttribute("sort", sort);
 		model.addAttribute("stops", null);
 		model.addAttribute("min", null);
@@ -159,7 +165,8 @@ public class becontroller {
 	@RequestMapping(value = "/filters", method = RequestMethod.GET)
 	public String addFilters(ModelMap model, @RequestParam("stops") String stops,
 			@RequestParam("min_price") String min_price, @RequestParam("max_price") String max_price,
-			@RequestParam("sortOption") String sortOption) {
+			@RequestParam("sortOption") String sortOption,
+			@RequestParam("preferredAirlineList") ArrayList<String> preferredAirlineList) {
 
 		ArrayList<Flights> flightList = new ArrayList<>();
 		flightList.clear();
@@ -196,6 +203,8 @@ public class becontroller {
 			Collections.sort(manifestList, priceAsc);
 		}
 
+		airlineList.clear();
+
 		for (int i = 0; i < manifestList.size(); i++) {
 			System.out.println(manifestList.get(i));
 			Flights flight = (Flights) dao.findById(manifestList.get(i).getFlight_no()).get();
@@ -204,7 +213,25 @@ public class becontroller {
 				flightList.add(new Flights());
 			else
 				flightList.add(i, flight);
+
+			airlineList.add(flight.getAirline());
+
 		}
+		if (preferredAirlineList != null && !preferredAirlineList.isEmpty())
+			for (int i = 0; i < manifestList.size(); i++) {
+				if (flightList.get(i) != null && !preferredAirlineList.contains(flightList.get(i).getAirline())) {
+					manifestList.remove(i);
+					flightList.remove(i);
+				}
+			}
+		System.out.println(preferredAirlineList);
+		System.out.println(manifestList);
+		System.out.println(flightList);
+		
+				
+		model.addAttribute("logedin", logedin);
+		model.addAttribute("preferredAirlineList", preferredAirlineList);
+		model.addAttribute("airlineList", airlineList);
 		model.addAttribute("sort", sort);
 		model.addAttribute("stops", stops);
 		model.addAttribute("min", min_price);
@@ -224,6 +251,8 @@ public class becontroller {
 		List<Manifest> manifestList = null;
 		manifestList = manifestDao.findFilghtsWithOriginAndDest(search_origin, search_destination);
 
+		airlineList.clear();
+
 		for (int i = 0; i < manifestList.size(); i++) {
 			System.out.println(manifestList.get(i));
 			Flights flight = (Flights) dao.findById(manifestList.get(i).getFlight_no()).get();
@@ -232,8 +261,10 @@ public class becontroller {
 				flightList.add(new Flights());
 			else
 				flightList.add(i, flight);
+			airlineList.add(flight.getAirline());
 		}
 
+		model.addAttribute("airlineList", airlineList);
 		model.addAttribute("sort", sort);
 		model.addAttribute("stops", null);
 		model.addAttribute("min", null);

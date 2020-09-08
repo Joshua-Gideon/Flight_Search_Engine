@@ -6,7 +6,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,114 +14,180 @@
 	href="https://img.icons8.com/color/2x/airplane-take-off.png">
 <meta charset="ISO-8859-1">
 <title>Flights</title>
-<style><%@include file="/WEB-INF/css/style.css"%></style>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src ="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src ="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+<%@include file="/WEB-INF/css/style.css"%>
+</style>
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-var min=1,max = 50000, stops=0;
+	var min = 1, max = 50000, stops = 0;
 
-stops= <%=request.getAttribute("stops")%>===null? null :parseInt(<%=request.getAttribute("stops")%>);
-min= <%=request.getAttribute("min")%>===null? min :parseInt(<%=request.getAttribute("min")%>);
-max= <%=request.getAttribute("max")%>===null? max :parseInt(<%=request.getAttribute("max")%>);
+	stops =
+<%=request.getAttribute("stops")%>
+	=== null ? null
+			: parseInt(
+<%=request.getAttribute("stops")%>
+	);
+	min =
+<%=request.getAttribute("min")%>
+	=== null ? min
+			: parseInt(
+<%=request.getAttribute("min")%>
+	);
+	max =
+<%=request.getAttribute("max")%>
+	=== null ? max
+			: parseInt(
+<%=request.getAttribute("max")%>
+	);
 
-	$( function() {
-		$( "#slider-range" ).slider({
-			range: true,
-			min: 1,
-			max: 50000,
-			values: [ min, max],
-			slide: function( event, ui ) {
-				min=ui.values[0];
-				max=ui.values[1];
-				$( "#amount" ).val( ""+ui.values[ 0 ] +" - " +ui.values[ 1 ] );
+	$(function() {
+		$("#slider-range").slider({
+			range : true,
+			min : 1,
+			max : 50000,
+			values : [ min, max ],
+			slide : function(event, ui) {
+				min = ui.values[0];
+				max = ui.values[1];
+				$("#amount").val("" + ui.values[0] + " - " + ui.values[1]);
 			}
 		});
-		$( "#amount" ).val( ""+$( "#slider-range" ).slider( "values", 0 ) +
-			 " - "+$( "#slider-range" ).slider( "values", 1 ) );
+		$("#amount").val(
+				"" + $("#slider-range").slider("values", 0) + " - "
+						+ $("#slider-range").slider("values", 1));
 
-	} );
-	
-	console.log(min,max);
+	});
 
-	$(function(){
+	console.log(min, max);
+
+	$(function() {
 		$("#stops").slider({
-			min:0,
-			max:10,
-			value: <%=request.getAttribute("stops")%>==null ? 0 :stops,
-			slide:function(event,ui){
-			stops = ui.value;
-			$("#stopsLabel").val(ui.value);
-				}
-			});
-		if(<%=request.getAttribute("stops")%>==null )
+			min : 0,
+			max : 10,
+			value :
+<%=request.getAttribute("stops")%>
+	== null ? 0 : stops,
+			slide : function(event, ui) {
+				stops = ui.value;
+				$("#stopsLabel").val(ui.value);
+			}
+		});
+		if (
+<%=request.getAttribute("stops")%>
+	== null)
 			$("#stopsLabel").val(" All");
 		else
-			$("#stopsLabel").val(" "+$("#stops").slider("value"));
-		});
-	
-	</script>
-	
+			$("#stopsLabel").val(" " + $("#stops").slider("value"));
+	});
+</script>
+
 </head>
 <body>
 
 
-<%@include file="/WEB-INF/jsp/header.jsp" %>
+	<%@include file="/WEB-INF/jsp/header.jsp"%>
 
 
 	<div class="searchResultBar" align="center">
 		<h1 align="left">Search</h1>
 		<form action="/flights" method="GET">
-			<input type="text" name="origin" placeholder="Origin" value="<%=request.getAttribute("origin") %>"> 
-			<input
-				type="text" name="destination" placeholder="Destination" value="<%=request.getAttribute("destination") %>"> 
-				<input
+			<input type="text" name="origin" placeholder="Origin"
+				value="<%=request.getAttribute("origin")%>"> <input
+				type="text" name="destination" placeholder="Destination"
+				value="<%=request.getAttribute("destination")%>">
+				<!-- 
+				 <input
 				type="date" name="dateoftravel"> 
-				<div align="center">
-				<input type="submit"
-				name="submit" class="searchButton" value="Search">
-				</div>
+				 -->
+			<div align="center">
+				<input type="submit" name="submit" class="searchButton"
+					value="Search">
+			</div>
 		</form>
+		<h1 align="left" >Today's Deal</h1>
+		<img src="https://dlior9lx1k7r2.cloudfront.net/postphoto/b04019f2-4503-4e19-997a-3b7c85a86c33.png" width="90%" class="image">
 	</div>
-	
-	
-<div class="flightsResult">
-
-<%@ include file="/WEB-INF/jsp/flightCard.jsp" %>
-
-</div>
-
-<div class="filters">
-	<h1 align="left">Filters</h1>
-<div class="priceFilter">
-	<h2 align="left">Price</h2>
-	<div id="slider-range"></div>
-	<p>
-		<label for="amount">Price Range:</label>
-		<input type="text" id="amount" readonly style="border:0; color:black; font-weight:bold;">
-	</p>
-</div>
-
-<div class="priceFilter">
-	<h2 align="left">No of Stops</h2>
-	<div id="stops"></div>
-	<p>
-		<label for="stopsLabel">No of Stops:</label>
-		<input type="text"  id="stopsLabel" readonly style="border:0; color:black; font-weight:bold;">
-		
-	</p>
-</div>
-
-<div >
-<button class="filterButtons" onclick="location.href ='/clear'">Clear</button>
-<button class="filterButtons" onclick="location.href ='/filters?stops='+stops+'&min_price='+min+'&max_price='+max+'&sortOption=null';">Apply</button>
-</div>
 
 
-</div>
-	
+	<div class="flightsResult">
+
+		<%@ include file="/WEB-INF/jsp/flightCard.jsp"%>
+
+	</div>
+
+	<div class="filters">
+		<h1 align="left">Filters</h1>
+		<div class="priceFilter">
+			<h2 align="left">Price</h2>
+			<div id="slider-range"></div>
+			<p>
+				<label for="amount">Price Range:</label> <input type="text"
+					id="amount" readonly
+					style="border: 0; color: black; font-weight: bold;">
+			</p>
+		</div>
+
+		<div class="priceFilter">
+			<h2 align="left">No of Stops</h2>
+			<div id="stops"></div>
+			<p>
+				<label for="stopsLabel">No of Stops:</label> <input type="text"
+					id="stopsLabel" readonly
+					style="border: 0; color: black; font-weight: bold;">
+
+			</p>
+		</div>
+		<% ArrayList<String> preferredAirlineList = (ArrayList<String>) request.getAttribute("preferredAirlineList");
+		System.out.println(preferredAirlineList);
+			ArrayList<String> airlineList = (ArrayList<String>) request.getAttribute("airlineList");
+		if (airlineList != null && airlineList.size() != 0) {
+		%><div class="priceFilter">
+			<h2 align="left">Preferred Airline</h2>
+
+			<div>
+				<%
+					for (int i = 0; i < airlineList.size(); i++) {
+				%><input type="checkbox" id="preferredAirline"
+					name="preferredAirline" value="<%=airlineList.get(i)%>"><label
+					for="preferredAirline"><%=airlineList.get(i)%></label>
+				<%
+					}
+				%>
+			</div><br/>
+		</div>
+		<%
+			}
+		String pf = "preferredAirline";
+		%>
+
+		<div>
+			<button class="filterButtons" onclick="location.href ='/clear'">Clear</button>
+			<button class="filterButtons" onclick="checkedItems();">Apply</button>
+		</div>
+
+
+	</div>
+
 
 </body>
+
+<script>
+
+function checkedItems(){
+	var checked= [];
+	$.each($("input[name='preferredAirline']:checked"),function(){
+		checked.push($(this).val());
+		});
+	console.log(checked);
+	location.href ='/filters?stops='+stops+'&min_price='+min+'&max_price='+max+'&sortOption=null'+'&preferredAirlineList='+checked;
+
+}
+
+
+</script>
 
 
 </html>

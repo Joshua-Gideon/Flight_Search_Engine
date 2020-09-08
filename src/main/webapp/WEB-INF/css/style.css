@@ -240,3 +240,8 @@ h1 {
 	border-radius: 5px;
 	font-size: 16px;
 }
+
+.image:hover{
+	width:98%;
+	border:medium;	
+}
