@@ -9,60 +9,22 @@
 <%@page import="com.start.begin.model.Manifest"%>
 
 
-
-
 <%
-	HashMap<String, String> sort = new HashMap<String, String>();
-sort.put("price", (String) request.getAttribute("sort_price"));
-sort.put("duration", (String) request.getAttribute("sort_duration"));
+	HashMap<String, Boolean> sort = (HashMap<String, Boolean>) request.getAttribute("sort");
 ArrayList manifestList = (ArrayList) request.getAttribute("manifest");
-%>
-<%
-	Comparator<Manifest> duration = new Comparator<Manifest>() {
-
-	public int compare(Manifest s1, Manifest s2) {
-
-		int a = s1.getId();
-		int b = s2.getId();
-		if (sort.get("duration") == "true")
-	return a - b;
-		else
-	return b - a;
-
-	}
-};
-Comparator<Manifest> durationD = new Comparator<Manifest>() {
-
-	public int compare(Manifest s1, Manifest s2) {
-
-		int a = s1.getId();
-		int b = s2.getId();
-		if (sort.get("duration") != "true")
-	return a - b;
-		else
-	return b - a;
-
-	}
-};
-manifestList.sort(duration);
+System.out.println(sort);
 %>
 <h1>Flights</h1>
 <div class="sortOptions" align="right" style="padding-right: 10px;">
 	<button
-		onclick="function(){<%if (sort.get("duration") == "true")
-	sort.put("duration", "false");
-else
-	sort.put("duration", "true");
-out.print(sort);
-manifestList.sort(durationD);
-response.setIntHeader("Refresh", 1);%>}">
+		onclick="location.href ='/filters?stops='+stops+'&min_price='+min+'&max_price='+max+'&sortOption=duration';">
 		Duration
 		<%
-		if (sort.get("duration") == "false") {
+		if (sort.get("duration") != null && sort.get("duration") == true) {
 	%>
 		&#8593;
 		<%
-			} else if (sort.get("duration") == "true") {
+			} else if (sort.get("duration") != null && sort.get("duration") == false) {
 		%>
 		&#8595;
 		<%
@@ -70,14 +32,15 @@ response.setIntHeader("Refresh", 1);%>}">
 		%>
 	</button>
 
-	<button onclick="">
+	<button
+		onclick="location.href ='/filters?stops='+stops+'&min_price='+min+'&max_price='+max+'&sortOption=price';">
 		Price
 		<%
-		if (request.getAttribute("sort_price") == "false") {
+		if (sort.get("price") != null && sort.get("price") == true) {
 	%>
 		&#8593;
 		<%
-			} else if (request.getAttribute("sort_price") == "true") {
+			} else if (sort.get("price") != null && sort.get("price") == false) {
 		%>
 		&#8595;
 		<%
@@ -133,3 +96,4 @@ for (int i = 0; i < manifestList.size(); i++) {
 	}
 }
 %>
+

@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import com.start.begin.model.User;
 @Controller
 public class becontroller {
 	Boolean logedin = false, ascending = true;
+	HashMap<String, Boolean> sort = new HashMap<String, Boolean>();
 	@Autowired
 	UserRepo userRepo;
 
@@ -52,8 +54,8 @@ public class becontroller {
 
 	@GetMapping("/")
 	public String sayhello() {
-		for (Flights f : dao.findAll())
-			System.out.println(f.getId().toString());
+		sort.put("duration", true);
+		sort.put("price", null);
 		return "index";
 	}
 
@@ -85,6 +87,8 @@ public class becontroller {
 		flightList.clear();
 		List<Manifest> manifestList = manifestDao.findFilghtsWithOriginAndDest(origin, destination);
 
+		Collections.sort(manifestList, durationAcd);
+
 		for (int i = 0; i < manifestList.size(); i++) {
 			System.out.println(manifestList.get(i));
 			Flights flight = (Flights) dao.findById(manifestList.get(i).getFlight_no()).get();
@@ -95,12 +99,7 @@ public class becontroller {
 				flightList.add(i, flight);
 		}
 
-		ascending = true;
-
-		Collections.sort(manifestList, durationAcd);
-
-//		request.getAttribute("sort_price");
-		model.addAttribute("sort_duration","true");
+		model.addAttribute("sort", sort);
 		model.addAttribute("stops", null);
 		model.addAttribute("min", null);
 		model.addAttribute("max", null);
@@ -134,23 +133,69 @@ public class becontroller {
 
 		}
 	};
+	public static Comparator<Manifest> priceDesc = new Comparator<Manifest>() {
+
+		public int compare(Manifest s1, Manifest s2) {
+
+			int a = Integer.parseInt(s1.getPrice());
+			int b = Integer.parseInt(s2.getPrice());
+
+			return a - b;
+
+		}
+	};
+	public static Comparator<Manifest> priceAsc = new Comparator<Manifest>() {
+
+		public int compare(Manifest s1, Manifest s2) {
+
+			int a = Integer.parseInt(s1.getPrice());
+			int b = Integer.parseInt(s2.getPrice());
+
+			return b - a;
+
+		}
+	};
 
 	@RequestMapping(value = "/filters", method = RequestMethod.GET)
 	public String addFilters(ModelMap model, @RequestParam("stops") String stops,
-			@RequestParam("min_price") String min_price, @RequestParam("max_price") String max_price) {
+			@RequestParam("min_price") String min_price, @RequestParam("max_price") String max_price,
+			@RequestParam("sortOption") String sortOption) {
 
 		ArrayList<Flights> flightList = new ArrayList<>();
 		flightList.clear();
 		List<Manifest> manifestList = null;
-		System.out.println(stops);
 		if (stops.compareTo("null") == 0) {
-			System.out.println(stops);
 			manifestList = manifestDao.findFilghts(search_origin, search_destination, Integer.parseInt(min_price),
 					Integer.parseInt(max_price));
 		} else {
 			manifestList = manifestDao.findFilghtsWithStops(search_origin, search_destination, stops, min_price,
 					max_price);
 		}
+		if (sortOption != null) {
+			if (sort.get(sortOption) != null && sort.get(sortOption))
+				sort.put(sortOption, false);
+			else
+				sort.put(sortOption, true);
+
+			System.out.print(sort);
+			if (sortOption.compareTo("price") == 0)
+				sort.put("duration", null);
+			else
+				sort.put("price", null);
+
+			System.out.print(sort);
+		}
+
+		if (sort.get("duration") != null && sort.get("duration") == false) {
+			Collections.sort(manifestList, durationDesc);
+		} else if (sort.get("duration") != null && sort.get("duration") == true) {
+			Collections.sort(manifestList, durationAcd);
+		} else if (sort.get("price") != null && sort.get("price") == false) {
+			Collections.sort(manifestList, priceDesc);
+		} else {
+			Collections.sort(manifestList, priceAsc);
+		}
+
 		for (int i = 0; i < manifestList.size(); i++) {
 			System.out.println(manifestList.get(i));
 			Flights flight = (Flights) dao.findById(manifestList.get(i).getFlight_no()).get();
@@ -160,9 +205,7 @@ public class becontroller {
 			else
 				flightList.add(i, flight);
 		}
-
-		Collections.sort(manifestList, durationDesc);
-
+		model.addAttribute("sort", sort);
 		model.addAttribute("stops", stops);
 		model.addAttribute("min", min_price);
 		model.addAttribute("max", max_price);
@@ -191,6 +234,7 @@ public class becontroller {
 				flightList.add(i, flight);
 		}
 
+		model.addAttribute("sort", sort);
 		model.addAttribute("stops", null);
 		model.addAttribute("min", null);
 		model.addAttribute("max", null);
@@ -212,6 +256,7 @@ class FlightsComponent implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
 		readManifest();
 		readFlights();
 
@@ -254,7 +299,7 @@ class FlightsComponent implements CommandLineRunner {
 
 				System.out.println(Integer.parseInt(data[0]));
 				Manifest manifestEntry = new Manifest(data[0], data[1], data[2], data[3], data[4], data[5], data[6],
-						data[7],data[8]);
+						data[7], data[8]);
 				manifestEntry = manifestDao.save(manifestEntry);
 			}
 		} else {

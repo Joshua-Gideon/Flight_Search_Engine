@@ -20,6 +20,7 @@
 <script src ="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 var min=1,max = 50000, stops=0;
+
 stops= <%=request.getAttribute("stops")%>===null? null :parseInt(<%=request.getAttribute("stops")%>);
 min= <%=request.getAttribute("min")%>===null? min :parseInt(<%=request.getAttribute("min")%>);
 max= <%=request.getAttribute("max")%>===null? max :parseInt(<%=request.getAttribute("max")%>);
@@ -113,7 +114,7 @@ max= <%=request.getAttribute("max")%>===null? max :parseInt(<%=request.getAttrib
 
 <div >
 <button class="filterButtons" onclick="location.href ='/clear'">Clear</button>
-<button class="filterButtons" onclick="location.href ='/filters?stops='+stops+'&min_price='+min+'&max_price='+max;">Apply</button>
+<button class="filterButtons" onclick="location.href ='/filters?stops='+stops+'&min_price='+min+'&max_price='+max+'&sortOption=null';">Apply</button>
 </div>
 
 
