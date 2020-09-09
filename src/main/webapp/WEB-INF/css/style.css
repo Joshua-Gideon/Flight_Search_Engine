@@ -139,7 +139,12 @@ body {
 	color: white;
 	background-color: #1c87c9;
 }
-
+.reg{
+	border-collapse: collapse;
+	padding: 4px;
+	color: white;
+	background-color: #1c87c9;
+}
 .loginImage {
 	position: absolute;
 	padding: 20px;

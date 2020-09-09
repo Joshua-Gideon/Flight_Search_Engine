@@ -72,6 +72,10 @@ public class becontroller {
 		logedin = false;
 		return "index";
 	}
+	@GetMapping("/register")
+	public String register() {
+		return "Registerpage";
+	}
 
 	@Autowired
 	private FlightsDao dao;
