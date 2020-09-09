@@ -71,15 +71,15 @@ for (int i = 0; i < manifestList.size(); i++) {
 	</div>
 
 	<div class="time">
-		<span><%=manifest.getArrival()%></span><br /> <span><%=manifest.getOrigin()%></span>
+		<span><%=manifest.getDeparture()%></span><br /> <span><%=manifest.getOrigin()%></span>
 	</div>
-	<div style="width: 20%; padding: 10px;">
+	<div style="width: 25%; padding: 10px;">
 		<p style="width: 20%; margin: 0px; margin-top: 5px;"><%=manifest.getStops()%></p>
 		<hr>
-		<p align="center" style="margin: 0px; margin-top: 0px;"><%=manifest.getDuration()%></p>
+		<p align="center" style="margin: 0px; margin-top: 0px;"><i class="fa fa-clock-o" style="font-size:18px;color:red"></i> <%=manifest.getDuration()%></p>
 	</div>
 	<div class="time">
-		<span><%=manifest.getDeparture()%></span><br /> <span><%=manifest.getDestination()%></span>
+		<span><%=manifest.getArrival()%></span><br /> <span><%=manifest.getDestination()%></span>
 	</div>
 	<div class="flightsBlock">
 
@@ -93,6 +93,7 @@ for (int i = 0; i < manifestList.size(); i++) {
 <script>
 function booknow($this){
 	var logedin = <%=logedin%>;
+	console.log(logedin);
 	if(logedin !=null && logedin){
 		var button = document.getElementById("<%=flightsList.get(i).getId()%>");
 		button = $this;

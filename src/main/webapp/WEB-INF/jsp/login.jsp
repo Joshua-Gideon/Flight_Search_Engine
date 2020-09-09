@@ -22,8 +22,19 @@
 					<input type="submit" class="loginButton" value="Login">	
 		</form>
 		</div>
-		<div align="center" style="margin-top:20px;margin-bottom:10px;">Don't have an account? <a href="/register"style="color:blue;" ><input type="button"  class="reg" value="Register"></a></div>
+		<div align="center" style="margin-top:20px;margin-bottom:10px;">Don't have an account? <a href="/register"style="color:blue;" >Register</a></div>
 	</div>
+<%
+String msg = (String) request.getAttribute("message");
+
+	%>
 
 </body>
+<script>
+
+var msg = "<%=msg%>";
+if(msg!=null && msg!="null")
+alert(msg);
+
+</script>
 </html>

@@ -12,6 +12,7 @@
 <head>
 <link rel="shortcut icon"
 	href="https://img.icons8.com/color/2x/airplane-take-off.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <meta charset="ISO-8859-1">
 <title>Flights</title>
 <style>
@@ -173,7 +174,19 @@
 
 
 </body>
-
+<!-- if(preferredAirlineList!=null && preferredAirlineList.size()!=0){
+	for(int i=0;i<preferredAirlineList.size();i++)
+	{
+		String item = preferredAirlineList.get(i);
+		
+}
+}
+console.log(prefLi.length);
+if(prefLi!="null"){
+prefLi.forEach((ele)=>{
+	console.log(ele);
+	$("#"+ele).prop("checked",true);
+});} -->
 <script>
 
 function checkedItems(){

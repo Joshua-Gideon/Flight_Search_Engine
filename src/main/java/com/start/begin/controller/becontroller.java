@@ -72,8 +72,44 @@ public class becontroller {
 		logedin = false;
 		return "index";
 	}
+
 	@GetMapping("/register")
 	public String register() {
+		return "Registerpage";
+	}
+
+	@GetMapping("/save")
+	public String save(@RequestParam("userName") String userName, @RequestParam("password") String password,
+			@RequestParam("email") String email, Model model) {
+		if (!userName.isBlank() && !password.isBlank() && !email.isBlank()) {
+			System.out.println("Checking User");
+			User u = null;
+			try {
+				u = userRepo.findByName(userName);
+			} catch (Exception e) {
+				System.out.println("User not found");
+				User newUser = new User();
+				newUser.setName(userName);
+				newUser.setPassword(password);
+				userRepo.save(newUser);
+				model.addAttribute("message", "Registration Success");
+				return "login";
+			}
+			if (u != null) {
+				model.addAttribute("message", "Existing User kindly login");
+				return "login";
+			} else {
+				System.out.println("User not found");
+				User newUser = new User();
+				newUser.setId(0);
+				newUser.setName(userName);
+				newUser.setPassword(password);
+				userRepo.save(newUser);
+				model.addAttribute("message", "Registration Success");
+				return "login";
+			}
+		}
+
 		return "Registerpage";
 	}
 
@@ -103,10 +139,12 @@ public class becontroller {
 			System.out.println(flight);
 			if (flight == null)
 				flightList.add(new Flights());
-			else
+			else 
 				flightList.add(i, flight);
 			airlineList.add(flight.getAirline());
 		}
+		System.out.print("logedin:");
+		System.out.println(logedin);
 		model.addAttribute("logedin", logedin);
 		model.addAttribute("airlineList", airlineList);
 		model.addAttribute("sort", sort);
@@ -231,8 +269,7 @@ public class becontroller {
 		System.out.println(preferredAirlineList);
 		System.out.println(manifestList);
 		System.out.println(flightList);
-		
-				
+
 		model.addAttribute("logedin", logedin);
 		model.addAttribute("preferredAirlineList", preferredAirlineList);
 		model.addAttribute("airlineList", airlineList);
